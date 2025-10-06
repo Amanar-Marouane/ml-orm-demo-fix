@@ -49,28 +49,5 @@
     "branch-alias": {
       "dev-main": "1.0.x-dev"
     }
-  },
-  "repositories": [
-    {
-      "type": "path",
-      "url": "../MonkeysLegion-Query",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../MonkeysLegion-Entity",
-      "options": {
-        "symlink": true
-      }
-    },
-    {
-      "type": "path",
-      "url": "../MonkeysLegion-Template",
-      "options": {
-        "symlink": true
-      }
-    }
-  ]
+  }
 }
