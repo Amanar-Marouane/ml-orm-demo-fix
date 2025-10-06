@@ -1,0 +1,105 @@
+body.dark-theme {
+    --primary: #6478ad;
+    --primary-dark: #3c4b79;
+    --primary-light: #8a99c9;
+    --primary-bg: #1e2132;
+
+    --gold: #d4b45e;
+    --gold-light: #e6d7a7;
+    --gold-dark: #b89c43;
+
+    --burgundy: #a82d3e;
+    --burgundy-light: #e6c0c5;
+
+    --navy: #1e2a4d;
+    --navy-light: #2c3a66;
+
+    --forest: #306b4f;
+    --forest-light: #c5e6d5;
+
+    --success: #306b4f;
+    --success-light: #253d2f;
+    --warning: #c79a55;
+    --warning-light: #3d3323;
+    --danger: #a82d3e;
+    --danger-light: #3d2328;
+    --info: #6478ad;
+    --info-light: #293148;
+
+    --dark: #f8f9fa;
+    --gray-dark: #e9ecef;
+    --gray: #adb5bd;
+    --gray-light: #6c757d;
+    --light: #212529;
+    --white: #1a1d29;
+
+    background-color: #14161f;
+    color: #e9ecef;
+}
+
+body.dark-theme .ml-card,
+body.dark-theme .card,
+body.dark-theme .performance-card,
+body.dark-theme .accordion-item {
+    background-color: var(--white) !important;
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-theme .ml-card-header,
+body.dark-theme .card-header,
+body.dark-theme .ml-card-footer,
+body.dark-theme .card-footer,
+body.dark-theme .accordion-button {
+    background-color: var(--white) !important;
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+body.dark-theme .table {
+    color: var(--gray-dark);
+}
+
+body.dark-theme .table thead th {
+    color: var(--gray);
+}
+
+body.dark-theme .alert-success {
+    background-color: var(--success-light);
+    color: #7dd3a8;
+}
+
+body.dark-theme .alert-danger {
+    background-color: var(--danger-light);
+    color: #f5a9b8;
+}
+
+body.dark-theme .alert-warning {
+    background-color: var(--warning-light);
+    color: #f7cd7f;
+}
+
+body.dark-theme .alert-info {
+    background-color: var(--info-light);
+    color: #a1b3e9;
+}
+
+body.dark-theme .progress {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .progress-bar {
+    background: linear-gradient(to right, var(--gold), var(--gold-light));
+}
+
+body.dark-theme .text-muted {
+    color: var(--gray) !important;
+}
+
+body.dark-theme .navbar,
+body.dark-theme header {
+    background: linear-gradient(135deg, #14161f 0%, #0a0b11 100%) !important;
+}
+
+body.dark-theme .accordion-button:not(.collapsed) {
+    background-color: rgba(212, 180, 94, 0.1);
+    color: var(--gold);
+}

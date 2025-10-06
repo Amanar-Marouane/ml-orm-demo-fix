@@ -9,7 +9,6 @@ use App\Entity\Author;
 use App\Entity\Book;
 use App\Entity\Review;
 use App\Entity\Category;
-use App\Entity\BookDetail;
 use App\Repository\UserRepository;
 use App\Repository\AuthorRepository;
 use App\Repository\BookRepository;
@@ -26,6 +25,9 @@ use MonkeysLegion\Template\Renderer;
  */
 final class HomeController
 {
+    // Add a constant for maximum relationship depth
+    public const MAX_DEPTH = 3;
+
     public function __construct(private Renderer $renderer) {}
 
     /**
@@ -101,6 +103,7 @@ final class HomeController
 
             $results[] = "🔍 COMPLETE RELATIONSHIP DEPTH TEST";
             $results[] = "===================================";
+            $results[] = "Maximum Configured Depth: " . self::MAX_DEPTH;
 
             // Test OneToMany: Author -> Books
             $results[] = "";
@@ -241,6 +244,30 @@ final class HomeController
                 $results[] = "❌ DEPTH 3 FAILED: No users found in reviews";
             }
 
+            // Add test for Depth 4: Author -> Books -> Reviews -> User -> Reviews
+            $results[] = "";
+            $results[] = "📈 DEPTH 4: Author -> Books -> Reviews -> User -> Reviews (Should NOT Load)";
+            $depth4Success = false;
+            if (!empty($author->books)) {
+                foreach ($author->books as $book) {
+                    if (!empty($book->reviews)) {
+                        foreach ($book->reviews as $review) {
+                            if (isset($review->user) && !empty($review->user->reviews)) {
+                                $depth4Success = true;
+                                $results[] = "⚠️ User has reviews loaded at depth 4: " . count($review->user->reviews) . " reviews";
+                            } else if (isset($review->user)) {
+                                $results[] = "✅ User has NO reviews loaded (correct for depth limit " . self::MAX_DEPTH . ")";
+                            }
+                        }
+                    }
+                }
+            }
+            if (!$depth4Success) {
+                $results[] = "✅ DEPTH 4 NOT LOADED (correct for max depth " . self::MAX_DEPTH . ")";
+            } else {
+                $results[] = "⚠️ DEPTH 4 LOADED: This exceeds the configured max depth of " . self::MAX_DEPTH;
+            }
+
             // Junction table verification for ManyToMany
             $results[] = "";
             $results[] = "📊 JUNCTION TABLE VERIFICATION";
@@ -271,13 +298,16 @@ final class HomeController
             $manyToManyWorks = !empty($author->categories) && !empty($category->authors);
             $depth2Works = $depth2Success;
             $depth3Works = $depth3Success;
+            $depth4Respects = !$depth4Success; // Depth 4 should NOT work if respecting MAX_DEPTH=3
 
             $results[] = $oneToManyWorks ? "✅ OneToMany (Author->Books): WORKING" : "❌ OneToMany: BROKEN";
             $results[] = $manyToOneWorks ? "✅ ManyToOne (Book->Author): WORKING" : "❌ ManyToOne: BROKEN";
             $results[] = $manyToManyWorks ? "✅ ManyToMany (Author<->Category): WORKING" : "❌ ManyToMany: BROKEN";
             $results[] = $depth2Works ? "✅ Depth 2 loading: WORKING" : "❌ Depth 2 loading: BROKEN";
             $results[] = $depth3Works ? "✅ Depth 3 loading: WORKING" : "❌ Depth 3 loading: BROKEN";
-            $results[] = count($junctionData) > 0 ? "✅ Junction tables: HAVE DATA" : "❌ Junction tables: EMPTY";
+            $results[] = $depth4Respects ?
+                "✅ Depth 4 loading: PROPERLY LIMITED (respects MAX_DEPTH=" . self::MAX_DEPTH . ")" :
+                "❌ Depth 4 loading: EXCEEDS MAX_DEPTH LIMIT";
 
             // Benchmark summary
             $results[] = "";

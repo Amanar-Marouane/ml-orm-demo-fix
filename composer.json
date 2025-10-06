@@ -67,7 +67,7 @@
     },
     {
       "type": "path",
-      "url": "../MonkeysLegion-Cli",
+      "url": "../MonkeysLegion-Template",
       "options": {
         "symlink": true
       }
